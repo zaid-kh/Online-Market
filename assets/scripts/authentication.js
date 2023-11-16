@@ -5,7 +5,7 @@ function fetchData() {
     .then((response) => response.json())
     .then((dataObj) => {
       console.log(dataObj);
-      return data;
+      return dataObj;
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
