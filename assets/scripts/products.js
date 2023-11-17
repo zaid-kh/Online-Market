@@ -1,10 +1,13 @@
-export const AllProducts = fetchProducts();
+// import {user} from "./user"
+
+const ProductsUrl = "https://6555cde784b36e3a431e5f45.mockapi.io/products";
+const UsersUrl = "https://6555d3b584b36e3a431e6c3e.mockapi.io/users";
+
+export let AllProducts = fetchProducts();
 export function getProduct(productId) {
   AllProducts.find((product) => product.id == productId);
 }
 
-const ProductsUrl = "https://6555cde784b36e3a431e5f45.mockapi.io/products";
-const UsersUrl = "https://6555d3b584b36e3a431e6c3e.mockapi.io/users";
 //! updated later after merging files
 const isAdmin = true;
 // const isAdmin = false;
@@ -28,11 +31,11 @@ async function fetchProducts() {
     console.log(data);
     displayProducts(data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
-fetchProducts();
+// fetchProducts();
 
 const main = document.querySelector("main");
 main.id = "";
@@ -92,6 +95,8 @@ function displayProducts(products) {
     }
     productsContainer.appendChild(productCard);
     main.appendChild(productsContainer);
+
+    productCard.addEventListener("click", () => productPage(product));
   });
 }
 
@@ -202,15 +207,58 @@ async function fetchEditingProduct(currentProduct) {
 async function deletingProduct(currentProduct) {
   try {
     const res = await fetch(ProductsUrl + "/" + currentProduct.id, {
-        method: "DELETE",
-        headers: {
-            'Content-Type': 'application/json'
-        }
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
-    const data = await res.json()
+    const data = await res.json();
     console.log(data);
-    fetchProducts()
+    fetchProducts();
   } catch (error) {
     console.error(error);
   }
+}
+
+// go to product by clicking on it
+function productPage(product) {
+  main.innerText = "";
+  main.id = "product-details";
+  
+  const productList= document.createElement("button")
+  const section1 = document.createElement("section");
+  const img = document.createElement("img");
+  const section2 = document.createElement("section");
+  const name = document.createElement("h3");
+  const price = document.createElement("section");
+  const description = document.createElement("section");
+
+  productList.textContent = 'Back to Products'
+  productList.className = 'back-to-products'
+  img.src = product.avatar;
+  img.alt = product.name + " photo";
+  name.innerText = product.name;
+  price.innerHTML = `<b>Price :</b> ${product.price}$`;
+  description.innerHTML = `<b>Description :</b> ${product.description}`;
+
+  section1.append(img);
+  section2.append(productList, name, price, description);
+  if (isAdmin) {
+    const addToCart = document.createElement("button");
+    addToCart.className = "add-to-cart";
+    addToCart.textContent = "Add To Cart";
+    addToCart.addEventListener("click", async () => {
+      const users = await fetchUsers();
+
+      // assuming current user id is 1
+      currentUser = users[3];
+
+      updatingCart(currentUser, product);
+    });
+    section2.appendChild(addToCart);
+  }
+  main.append(section1, section2);
+  productList.addEventListener('click' , () => {
+    window.location ='./products.html'
+  })
 }

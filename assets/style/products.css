@@ -23,11 +23,13 @@
   background-color: white;
   padding: 20px 20px;
   border-radius: 6px;
+  cursor: pointer;
 }
 .productCard img {
   width: 100%;
   height: 50%;
 }
+.back-to-products,
 .edit-product {
   background-color: #1dbbe2;
 }
@@ -38,6 +40,7 @@
   background-color: #0ada26;
 }
 
+.back-to-products,
 .edit-product,
 .delete-product,
 .add-to-cart {
@@ -74,4 +77,18 @@
 }
 #product-form label {
   margin: 10px;
+}
+.hidden{
+    display: none;
+}
+
+/* product details */ 
+#product-details {
+    max-width: 80%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 2rem;
 }
