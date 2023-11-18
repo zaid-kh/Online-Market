@@ -74,6 +74,26 @@ function sendUserData() {
     role: checkBox.checked,
     password: password.value,
   };
+
+  // if the user already registered go to login page:
+
+  let usersArray = [];
+  fetch(UsersUrl)
+    .then((response) => response.json())
+    .then((dataObj) => {
+      console.log(dataObj);
+      usersArray = dataObj;
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+
+  usersArray.forEach((user) => {
+    if (user.email === formData.email) {
+      window.location.href = "authentication.html";
+    }
+  });
+
   // make post request
   fetch(UsersUrl, {
     method: "post",
@@ -86,6 +106,7 @@ function sendUserData() {
       if (!Response.ok) {
         throw new Error("Wrong Network response");
       }
+
       //todo: go to products.html page
       window.location.href = "products.html";
     })
