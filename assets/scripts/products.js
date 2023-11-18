@@ -24,8 +24,7 @@ async function fetchProducts() {
 }
 
 // Dom Catcher main element
-const main = document.querySelector("main");
-main.id = "";
+const main = document.querySelector("#main-container");
 const addBtn = document.querySelector("#add");
 
 function displayProducts(products) {
@@ -81,7 +80,6 @@ function displayProducts(products) {
     4. if card itself => go to page details
     */
     productCard.addEventListener("click", async (e) => {
-      console.log(e.target);
       if (
         e.target.className == "delete-product" ||
         e.target.className == "edit-product" ||
@@ -233,7 +231,8 @@ async function fetchDeletingProduct(currentProduct) {
 // go to product by clicking on it
 function productPage(product) {
   main.innerText = "";
-  main.id = "product-details";
+  const currentProductContainer = document.querySelector('#product-details')
+  currentProductContainer.innerText = ""
   addBtn.className = "hidden";
 
   // creating element of the details , sections to flex row between img and details
@@ -266,7 +265,9 @@ function productPage(product) {
     });
     section2.appendChild(addToCart);
   }
-  main.append(section1, section2);
+  currentProductContainer.append(section1, section2);
+  // add related products cards according to current product's name 
+  getRelatedProducts(product);
   productList.addEventListener("click", () => {
     window.location = "./products.html";
   });
@@ -279,6 +280,11 @@ addBtn.addEventListener("click", () => {
   if (existingForm) {
     existingForm.remove();
   }
+
+  const XBtn = document.createElement("section");
+  XBtn.textContent = "X";
+  XBtn.style.cursor = "pointer";
+  XBtn.addEventListener("click", () => addForm.remove());
 
   // creating form for adding new product
   const addForm = document.createElement("form");
@@ -301,6 +307,7 @@ addBtn.addEventListener("click", () => {
   submitButton.textContent = "Add Product";
 
   addForm.append(
+    XBtn,
     imgLabel,
     imgUrlInput,
     nameLabel,
@@ -340,6 +347,21 @@ async function fetchAddNewProduct(newProduct) {
     const data = await res.json();
     console.log(data);
     fetchProducts();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function getRelatedProducts(currentProduct) {
+  try {
+    const res = await fetch(ProductsUrl);
+    const data = await res.json();
+    const relatedProduct = data.filter((product) => {
+      return currentProduct.name
+        .split(" ")
+        .some((split) => product.name.includes(split));
+    });
+    displayProducts(relatedProduct)
   } catch (error) {
     console.error(error);
   }
