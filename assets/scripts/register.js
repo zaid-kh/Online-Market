@@ -60,11 +60,12 @@ userForm.addEventListener("submit", (e) => {
 
   // If all validation checks pass, display a success alert
   if (isValid) {
+    sendUserData();
     alert("User Form Submitted Successfully");
   }
 });
 
-if (isValid) {
+function sendUserData() {
   // prepare to send the data to API
   const formData = {
     username: username.value,
@@ -79,22 +80,21 @@ if (isValid) {
       "content-type": "application/json",
     },
     body: JSON.stringify(formData),
-  });
-  .then(Response => {
-    if(!Response.ok) {
-        throw new Error ("Wrong Network response")
-    }
-    return Response.JSON() /// assuming the api return json
-  });
-  .then(data => {
-    console.log("API response:", data);
-  });
-  .catch(error => {
-    // Handle errors that occurred during the fetch
-    console.error('Error during fetch:', error);
-});
+  })
+    .then((Response) => {
+      if (!Response.ok) {
+        throw new Error("Wrong Network response");
+      }
+      return Response.JSON(); /// assuming the api return json
+    })
+    .then((data) => {
+      console.log("API response:", data);
+    })
+    .catch((error) => {
+      // Handle errors that occurred during the fetch
+      console.error("Error during fetch:", error);
+    });
 }
-
 
 [username, email, password, confirmPassword].forEach((input) => {
   // Iterates over each input field
