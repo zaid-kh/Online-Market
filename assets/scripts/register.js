@@ -87,6 +87,7 @@ function sendUserData() {
         throw new Error("Wrong Network response");
       }
       //todo: go to products.html page
+      window.location.href = "products.html";
     })
     .catch((error) => {
       // Handle errors that occurred during the fetch
