@@ -1,6 +1,10 @@
 const UsersUrl = "https://6555d3b584b36e3a431e6c3e.mockapi.io/users";
 const signinform = document.querySelector("#signinform");
+const registerBtn = document.querySelector("#registerBtn");
 
+registerBtn.addEventListener("click", (e) => {
+  window.location.href = "register.html";
+});
 // craete an object to store user's infos
 const userInfo = {};
 let usersArray = [];
