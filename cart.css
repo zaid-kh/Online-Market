@@ -1,7 +1,8 @@
 li {
-    display: flex;
-    flex-direction: column;
    padding: 10px;
+   height: 200px;
+   width: 100px;
+   margin: 30px;
    
 }
 
@@ -17,4 +18,18 @@ input{
 }
 h1{
     text-align: center;
+}
+
+.img{
+    height: 100px;
+    width: 100px;
+}
+.name{
+    text-align: center;
+}
+#cart-items{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+   
 }
