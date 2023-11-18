@@ -3,7 +3,7 @@
  *
  */
 function isAuthenticated() {
-  return localStorage.getItem("user") !== null;
+  return sessionStorage.getItem("user") !== null;
 }
 /** Makes sure a user is logged on, and redirects to logIn page if there is no user */
 function checkAuthentication() {
@@ -13,7 +13,7 @@ function checkAuthentication() {
     alert("You are not logged in!\nYou will be redirected to the log in page.");
   }
 }
-/** Removes user from localStorage and redirects to logIn page */
+/** Removes user from sessionStorage and redirects to logIn page */
 function logoutUser() {
   sessionStorage.removeItem("user");
   // Redirect back to login page

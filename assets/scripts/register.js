@@ -106,8 +106,8 @@ function sendUserData() {
       if (!Response.ok) {
         throw new Error("Wrong Network response");
       }
-
-      //todo: go to products.html page
+      // save user to current session
+      sessionStorage.setItem("user", JSON.stringify(userMatch));
       window.location.href = "products.html";
     })
     .catch((error) => {

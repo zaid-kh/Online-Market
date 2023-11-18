@@ -1,6 +1,13 @@
+import { checkAuthentication, logoutUser } from "./util.js";
+
+checkAuthentication();
+// Logout functionality
+const logoutButton = document.getElementById("logout");
+logoutButton.addEventListener("click", (e) => {
+  logoutUser();
+});
 // Retrieve user from session storage
 const user = JSON.parse(sessionStorage.getItem("user"));
-console.log("user: ", user);
 const usernameSpan = document.querySelector(".username");
 usernameSpan.innerText = user.user;
 const ordersContainer = document.querySelector(".orders-container");

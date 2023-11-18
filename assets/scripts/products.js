@@ -1,7 +1,16 @@
+import { checkAuthentication, logoutUser } from "./util.js";
+
 const user = JSON.parse(sessionStorage.getItem("user"));
 
 const UsersUrl = "https://6555d3b584b36e3a431e6c3e.mockapi.io/users";
 const ProductsUrl = "https://6555cde784b36e3a431e5f45.mockapi.io/products";
+
+checkAuthentication();
+// Logout functionality
+const logoutButton = document.getElementById("logout");
+logoutButton.addEventListener("click", (e) => {
+  logoutUser();
+});
 
 export let AllProducts = fetchProducts();
 export function getProduct(productId) {
