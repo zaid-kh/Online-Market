@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Products</title>
-    <link rel="stylesheet" href="./assets/style/products.css">
-</head>
-<body>
-    <header><h1>Online Market</h1></header>
+    <link rel="stylesheet" href="assets/style/header.css" />
+    <link rel="stylesheet" href="./assets/style/products.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul class="navigation">
+          <li><a href="products.html">Shop</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="mailto:someone@mail.com">Contact Us</a></li>
+        </ul>
+        <section class="user-info navigation">
+          <li><a href="cart.html">Cart</a></li>
+          <span class="username">Username</span>
+          <a href="#" id="logout">Logout</a>
+        </section>
+      </nav>
+    </header>
     <main>
-        <section id="product-details"></section>
-        <section id="main-container"></section>
+      <section id="product-details"></section>
+      <section id="main-container"></section>
     </main>
     <button id="add" class="hidden">Add More</button>
     <footer></footer>
     <script src="./assets/scripts/products.js" type="module"></script>
-</body>
+  </body>
 </html>

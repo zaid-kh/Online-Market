@@ -106,8 +106,11 @@ function sendUserData() {
       if (!Response.ok) {
         throw new Error("Wrong Network response");
       }
-
-      //todo: go to products.html page
+      // save user to current session
+      // ! this does not save save user id into the session
+      formData.cart = [];
+      formData.purchase = [];
+      sessionStorage.setItem("user", JSON.stringify(formData));
       window.location.href = "products.html";
     })
     .catch((error) => {

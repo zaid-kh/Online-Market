@@ -1,7 +1,16 @@
+import { checkAuthentication, logoutUser } from "./util.js";
+
 const user = JSON.parse(sessionStorage.getItem("user"));
 
 const UsersUrl = "https://6555d3b584b36e3a431e6c3e.mockapi.io/users";
 const ProductsUrl = "https://6555cde784b36e3a431e5f45.mockapi.io/products";
+
+checkAuthentication();
+// Logout functionality
+const logoutButton = document.getElementById("logout");
+logoutButton.addEventListener("click", (e) => {
+  logoutUser();
+});
 
 export let AllProducts = fetchProducts();
 export function getProduct(productId) {
@@ -10,6 +19,10 @@ export function getProduct(productId) {
 
 const isAdmin = user.role;
 const currentUser = user;
+
+//display username
+const usernameSpan = document.querySelector(".username");
+usernameSpan.innerText = user.user;
 
 // fetch products API
 async function fetchProducts() {
@@ -231,8 +244,8 @@ async function fetchDeletingProduct(currentProduct) {
 // go to product by clicking on it
 function productPage(product) {
   main.innerText = "";
-  const currentProductContainer = document.querySelector('#product-details')
-  currentProductContainer.innerText = ""
+  const currentProductContainer = document.querySelector("#product-details");
+  currentProductContainer.innerText = "";
   addBtn.className = "hidden";
 
   // creating element of the details , sections to flex row between img and details
@@ -266,7 +279,7 @@ function productPage(product) {
     section2.appendChild(addToCart);
   }
   currentProductContainer.append(section1, section2);
-  // add related products cards according to current product's name 
+  // add related products cards according to current product's name
   getRelatedProducts(product);
   productList.addEventListener("click", () => {
     window.location = "./products.html";
@@ -361,7 +374,7 @@ async function getRelatedProducts(currentProduct) {
         .split(" ")
         .some((split) => product.name.includes(split));
     });
-    displayProducts(relatedProduct)
+    displayProducts(relatedProduct);
   } catch (error) {
     console.error(error);
   }
