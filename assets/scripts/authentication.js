@@ -1,7 +1,10 @@
+import { setUser } from "./user.js";
+
 const UsersUrl = "https://6555d3b584b36e3a431e6c3e.mockapi.io/users";
 const signinform = document.querySelector("#signinform");
+
 // craete an object to store user's infos
-export const userInfo = {};
+const userInfo = {};
 let usersArray = [];
 
 async function fetchData() {
@@ -40,9 +43,12 @@ function authenticateInfos() {
       user.user === userInfo.username && user.password === userInfo.password
     );
   });
+  console.log("userMatch: ", userMatch);
 
   if (userMatch) {
+    setUser(userMatch);
     console.log("Authentication successful");
+    // todo: redirect to products page
   } else {
     console.log("Authentication failed");
   }
