@@ -1,4 +1,4 @@
-const user = JSON.parse(sessionStorage.getItem("user"));
+// import {userInfo} from "./authentication.js"
 
 const ProductsUrl = "https://6555cde784b36e3a431e5f45.mockapi.io/products";
 const UsersUrl = "https://6555d3b584b36e3a431e6c3e.mockapi.io/users";
@@ -8,9 +8,21 @@ export function getProduct(productId) {
   AllProducts.find((product) => product.id == productId);
 }
 
-const isAdmin = user.isAdmin;
-const currentUser = user;
-
+//! updated later after merging files
+const isAdmin = true;
+// const isAdmin = false;
+let currentUser;
+//! permanent fetch users
+const fetchUsers = async () => {
+  try {
+    const res = await fetch(UsersUrl);
+    const userData = await res.json();
+    console.log(userData);
+    return userData;
+  } catch (error) {
+    console.log(error);
+  }
+};
 // fetch products API
 async function fetchProducts() {
   try {
@@ -91,7 +103,10 @@ function displayProducts(products) {
           fetchDeletingProduct(product);
         } else if (e.target.className == "edit-product") {
           editingProduct(product);
-        } else {
+        }else {
+          const users = await fetchUsers();
+          // assuming current user id is 1
+          currentUser = users[0];
           await fetchUpdatingCart(currentUser, product);
         }
       } else productPage(product);
@@ -262,6 +277,11 @@ function productPage(product) {
     addToCart.className = "add-to-cart";
     addToCart.textContent = "Add To Cart";
     addToCart.addEventListener("click", async () => {
+      const users = await fetchUsers();
+
+      // assuming current user id is 1
+      currentUser = users[3];
+
       fetchUpdatingCart(currentUser, product);
     });
     section2.appendChild(addToCart);
