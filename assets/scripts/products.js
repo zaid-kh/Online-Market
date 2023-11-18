@@ -6,7 +6,7 @@ export function getProduct(productId) {
   AllProducts.find((product) => product.id == productId);
 }
 
-const isAdmin = user.isAdmin;
+const isAdmin = user.role;
 const currentUser = user;
 
 // fetch products API
