@@ -6,10 +6,10 @@ body {
 
   .container {
     background-color: #ffffff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 100px;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    width: 400px;
     margin: 0 auto;
   }
 
@@ -29,11 +29,15 @@ label {
     
 }
 
-.inputbox {
-    width: 50%;
-    padding: 8px;
-    margin-bottom: 16px;
-    box-sizing: border-box;
+input [type="text"],
+input [type= "email"],
+input [type= "password"] {
+    width: 90%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    transition: border 0.3s ease;
 }
 
 /* #checkmark {
@@ -65,4 +69,16 @@ button {
 button:hover {
     background-color: rgb(69, 70, 160);
 
+}
+
+input.error {
+    border: 2px solid red;
+    background-color: #fdd;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
 }
