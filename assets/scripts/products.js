@@ -1,4 +1,4 @@
-// import {user} from "./user"
+// import {userInfo} from "./authentication.js"
 
 const ProductsUrl = "https://6555cde784b36e3a431e5f45.mockapi.io/products";
 const UsersUrl = "https://6555d3b584b36e3a431e6c3e.mockapi.io/users";
@@ -9,10 +9,10 @@ export function getProduct(productId) {
 }
 
 //! updated later after merging files
-const isAdmin = true;
-// const isAdmin = false;
+// const isAdmin = true;
+const isAdmin = false;
 let currentUser;
-
+//! permanent fetch users
 const fetchUsers = async () => {
   try {
     const res = await fetch(UsersUrl);
@@ -23,7 +23,7 @@ const fetchUsers = async () => {
     console.log(error);
   }
 };
-
+// fetch products API
 async function fetchProducts() {
   try {
     const res = await fetch(ProductsUrl);
@@ -35,13 +35,14 @@ async function fetchProducts() {
   }
 }
 
-// fetchProducts();
-
+// Dom Catcher main element
 const main = document.querySelector("main");
 main.id = "";
+const addBtn = document.querySelector("#add");
 
 function displayProducts(products) {
-  main.innerText = "";
+  main.innerText = ""; // reset the main children
+
   const productsContainer = document.createElement("section");
   productsContainer.id = "products";
 
@@ -62,7 +63,10 @@ function displayProducts(products) {
     description.innerText = product.description;
 
     productCard.append(img, name, price, description);
+
+    // admin can add/ edit/ delete products
     if (isAdmin) {
+      addBtn.classList.remove("hidden");
       const editBtn = document.createElement("button");
       const deleteBtn = document.createElement("button");
       editBtn.innerText = "Edit";
@@ -70,37 +74,48 @@ function displayProducts(products) {
       editBtn.className = "edit-product";
       deleteBtn.className = "delete-product";
 
-      editBtn.addEventListener("click", () => {
-        editingProduct(product);
-      });
-      deleteBtn.addEventListener("click", () => {
-        deletingProduct(product);
-      });
-
       productCard.append(editBtn, deleteBtn);
     } else {
+      // user can only add products to cart
       const addToCart = document.createElement("button");
       addToCart.innerText = "Add To Cart";
       addToCart.className = "add-to-cart";
 
-      addToCart.addEventListener("click", async () => {
-        const users = await fetchUsers();
-
-        // assuming current user id is 1
-        currentUser = users[0];
-
-        updatingCart(currentUser, product);
-      });
       productCard.appendChild(addToCart);
     }
     productsContainer.appendChild(productCard);
     main.appendChild(productsContainer);
 
-    productCard.addEventListener("click", () => productPage(product));
+    /* add listener to click on:
+    1. edit
+    2. delete 
+    3. add to cart
+    4. if card itself => go to page details
+    */
+    productCard.addEventListener("click", async (e) => {
+      console.log(e.target);
+      if (
+        e.target.className == "delete-product" ||
+        e.target.className == "edit-product" ||
+        e.target.className == "add-to-cart"
+      ) {
+        if (e.target.className == "delete-product") {
+          fetchDeletingProduct(product);
+        } else if (e.target.className == "edit-product") {
+          editingProduct(product);
+        } else {
+          const users = await fetchUsers();
+          // assuming current user id is 1
+          currentUser = users[0];
+          await fetchUpdatingCart(currentUser, product);
+        }
+      } else productPage(product);
+    });
   });
 }
 
-async function updatingCart(userData, currentProduct) {
+// fetch PUT to edit cart array at the user data
+async function fetchUpdatingCart(userData, currentProduct) {
   // push current product to cart list
   userData.cart.push(currentProduct);
 
@@ -122,12 +137,19 @@ async function updatingCart(userData, currentProduct) {
 
 // editing product
 function editingProduct(currentProduct) {
+  // check if popup is opened
   const existingForm = document.getElementById("product-form");
   if (existingForm) {
     existingForm.remove();
   }
+  // creating form
   const productForm = document.createElement("form");
   productForm.id = "product-form";
+
+  const XBtn = document.createElement("section");
+  XBtn.textContent = "X";
+  XBtn.style.cursor = "pointer";
+  XBtn.addEventListener("click", () => productForm.remove());
 
   const imgLabel = document.createElement("label");
   imgLabel.innerText = "Image Url: ";
@@ -151,11 +173,13 @@ function editingProduct(currentProduct) {
   submitBtn.textContent = "Submit";
   submitBtn.type = "submit";
 
+  // add listener for Escaping this popup window
   productForm.addEventListener("keydown", async (e) => {
-    if (e.key === "esc") {
+    if (e.key === "Escape") {
       productForm.remove();
     }
   });
+  // add listener to submit input values to edit the product details
   productForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -171,6 +195,7 @@ function editingProduct(currentProduct) {
   });
 
   productForm.append(
+    XBtn,
     imgLabel,
     imgInput,
     nameLabel,
@@ -185,6 +210,7 @@ function editingProduct(currentProduct) {
   main.appendChild(productForm);
 }
 
+// fetch PUT for editing product's details
 async function fetchEditingProduct(currentProduct) {
   try {
     const res = await fetch(ProductsUrl + "/" + currentProduct.id, {
@@ -194,7 +220,6 @@ async function fetchEditingProduct(currentProduct) {
       },
       body: JSON.stringify(currentProduct),
     });
-    console.log(res);
     const data = await res.json();
     console.log(data);
     fetchProducts();
@@ -203,8 +228,8 @@ async function fetchEditingProduct(currentProduct) {
   }
 }
 
-// deleting product
-async function deletingProduct(currentProduct) {
+// fetch DELETE for deleting product
+async function fetchDeletingProduct(currentProduct) {
   try {
     const res = await fetch(ProductsUrl + "/" + currentProduct.id, {
       method: "DELETE",
@@ -224,8 +249,10 @@ async function deletingProduct(currentProduct) {
 function productPage(product) {
   main.innerText = "";
   main.id = "product-details";
-  
-  const productList= document.createElement("button")
+  addBtn.className = "hidden";
+
+  // creating element of the details , sections to flex row between img and details
+  const productList = document.createElement("button");
   const section1 = document.createElement("section");
   const img = document.createElement("img");
   const section2 = document.createElement("section");
@@ -233,8 +260,8 @@ function productPage(product) {
   const price = document.createElement("section");
   const description = document.createElement("section");
 
-  productList.textContent = 'Back to Products'
-  productList.className = 'back-to-products'
+  productList.textContent = "Back to Products";
+  productList.className = "back-to-products";
   img.src = product.avatar;
   img.alt = product.name + " photo";
   name.innerText = product.name;
@@ -243,7 +270,9 @@ function productPage(product) {
 
   section1.append(img);
   section2.append(productList, name, price, description);
-  if (isAdmin) {
+
+  // if regular user has option to add product to cart
+  if (!isAdmin) {
     const addToCart = document.createElement("button");
     addToCart.className = "add-to-cart";
     addToCart.textContent = "Add To Cart";
@@ -253,12 +282,85 @@ function productPage(product) {
       // assuming current user id is 1
       currentUser = users[3];
 
-      updatingCart(currentUser, product);
+      fetchUpdatingCart(currentUser, product);
     });
     section2.appendChild(addToCart);
   }
   main.append(section1, section2);
-  productList.addEventListener('click' , () => {
-    window.location ='./products.html'
-  })
+  productList.addEventListener("click", () => {
+    window.location = "./products.html";
+  });
+}
+
+// add more products btn listener
+addBtn.addEventListener("click", () => {
+  // check if form is exist
+  const existingForm = document.getElementById("product-form");
+  if (existingForm) {
+    existingForm.remove();
+  }
+
+  // creating form for adding new product
+  const addForm = document.createElement("form");
+  addForm.id = "product-form";
+  const imgLabel = document.createElement("label");
+  const imgUrlInput = document.createElement("input");
+  const nameLabel = document.createElement("label");
+  const nameInput = document.createElement("input");
+  const priceLabel = document.createElement("label");
+  const priceInput = document.createElement("input");
+  const descriptionLabel = document.createElement("label");
+  const descriptionTextarea = document.createElement("textarea");
+  const submitButton = document.createElement("button");
+  submitButton.id = "add-to";
+
+  imgLabel.textContent = "Image URL";
+  nameLabel.textContent = "Product Name";
+  priceLabel.textContent = "Price";
+  descriptionLabel.textContent = "Description";
+  submitButton.textContent = "Add Product";
+
+  addForm.append(
+    imgLabel,
+    imgUrlInput,
+    nameLabel,
+    nameInput,
+    priceLabel,
+    priceInput,
+    descriptionLabel,
+    descriptionTextarea,
+    submitButton
+  );
+
+  main.appendChild(addForm);
+
+  //add listener to submit the form values
+  addForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const newProduct = {
+      img: imgUrlInput.value,
+      name: nameInput.value,
+      price: priceInput.value,
+      description: descriptionTextarea.value,
+    };
+    await fetchAddNewProduct(newProduct);
+  });
+});
+
+// fetch post to add new product
+async function fetchAddNewProduct(newProduct) {
+  try {
+    const res = await fetch(ProductsUrl, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newProduct),
+    });
+    const data = await res.json();
+    console.log(data);
+    fetchProducts();
+  } catch (error) {
+    console.error(error);
+  }
 }
