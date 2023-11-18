@@ -1,0 +1,37 @@
+li {
+  
+   padding: 10px;
+   height: 200px;
+   width: 100px;
+   margin: 30px;
+   
+}
+
+button{
+    width: 100px;
+  
+    
+}
+
+input{
+    width: 50px;
+    text-align: center;
+    
+}
+h1{
+    text-align: center;
+}
+
+.img{
+    height: 100px;
+    width: 100px;
+}
+.name{
+    text-align: center;
+}
+#cart-items{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+   
+}

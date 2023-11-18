@@ -51,8 +51,12 @@ function authenticateInfos() {
     // save user to current session
     sessionStorage.setItem("user", JSON.stringify(userMatch));
     console.log("Authentication successful");
+<<<<<<< HEAD
+    window.location = './cart.html';
+=======
     // todo: redirect to products page
     window.location.href = "products.html";
+>>>>>>> 8ce8d1e8f8d378ff9461c132c6fa53de704cede2
   } else {
     console.log("Authentication failed");
   }
