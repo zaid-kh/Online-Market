@@ -1,7 +1,8 @@
 // Retrieve user from session storage
 const user = JSON.parse(sessionStorage.getItem("user"));
 console.log("user: ", user);
-
+const usernameSpan = document.querySelector(".username");
+usernameSpan.innerText = user.user;
 const ordersContainer = document.querySelector(".orders-container");
 
 // * retrieve users purchases from user.js
