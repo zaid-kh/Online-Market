@@ -1,6 +1,10 @@
 const UsersUrl = "https://6555d3b584b36e3a431e6c3e.mockapi.io/users";
 const signinform = document.querySelector("#signinform");
+const registerBtn = document.querySelector("#registerBtn");
 
+registerBtn.addEventListener("click", (e) => {
+  window.location.href = "register.html";
+});
 // craete an object to store user's infos
 const userInfo = {};
 let usersArray = [];
@@ -47,7 +51,12 @@ function authenticateInfos() {
     // save user to current session
     sessionStorage.setItem("user", JSON.stringify(userMatch));
     console.log("Authentication successful");
+<<<<<<< HEAD
     window.location = './cart.html';
+=======
+    // todo: redirect to products page
+    window.location.href = "products.html";
+>>>>>>> 8ce8d1e8f8d378ff9461c132c6fa53de704cede2
   } else {
     console.log("Authentication failed");
   }
