@@ -1,5 +1,5 @@
 const url='https://6555cde784b36e3a431e5f45.mockapi.io/';
-
+const user = JSON.parse(sessionStorage.getItem("user"));
 const purchase=document.getElementById('purchase');
 
 
@@ -32,7 +32,7 @@ function displayCart(shoppingCart) {
     shoppingCart.forEach(item => {
         const cartItem = document.createElement('li');
 
-        cartItem.appendChild(document.createTextNode('Product ID: ' + item.productId + ' '));
+        cartItem.appendChild(document.createTextNode('Product ID: ' + item.id + ' '));
 
         let quantity=document.createElement('input');
         quantity.classList.add('quantity');
@@ -44,11 +44,11 @@ function displayCart(shoppingCart) {
         let deleteProduct=document.createElement('button');
         deleteProduct.classList.add('deleteProduct')
         deleteProduct.textContent='delete';
-        deleteProduct.addEventListener('click',()=>remove_func(item.productId))
+        deleteProduct.addEventListener('click',()=>remove_func(item.id))
 
         const img = document.createElement("img")
        img.classList.add('img')
-        img.src=item.img
+        img.src=item.avatar
         cartItem.appendChild(img);
 
         const name = document.createElement("h3")
@@ -59,7 +59,7 @@ function displayCart(shoppingCart) {
         const price = document.createElement("section")
         price.classList.add('price');
         price.textContent=item.price ;
-       
+        cartItem.appendChild(price);
         
        
         cartItem.appendChild(deleteProduct);
@@ -71,23 +71,33 @@ function displayCart(shoppingCart) {
 
 }
 
-displayCart(shoppingCart);
+displayCart(user.cart);
 
 
 
 function remove_func(ItemId) {
-    const index = shoppingCart.findIndex(item=>item.productId=== ItemId)
+    const index = user.cart.findIndex(item=>item.id=== ItemId)
     if(index !== -1){
-      shoppingCart.splice(index,1);
-      displayCart(shoppingCart);
+      user.cart.splice(index,1);
+      displayCart(user.cart);
     }
 }    
 
 
 function pressPurchase(){
 
-    shoppingCart = []; // Clear the shopping cart
-    displayCart(shoppingCart); // Update the displayed cart
+    user.purchase = user.cart.map(obj => ({...obj}));
+
+    user.cart = []; // Clear the shopping cart
+    displayCart(user.cart); // Update the displayed cart
+
+
+    const orderlink = document.createElement("a")
+        orderlink.classList.add('order');
+        orderlink.href='url';
+        orderlink.textContent='Review your order';
+        document.body.appendChild(orderlink);
+   
 
 }
 purchase.addEventListener('click',pressPurchase)

@@ -47,7 +47,7 @@ function authenticateInfos() {
     // save user to current session
     sessionStorage.setItem("user", JSON.stringify(userMatch));
     console.log("Authentication successful");
-    // todo: redirect to products page
+    window.location = './cart.html';
   } else {
     console.log("Authentication failed");
   }
