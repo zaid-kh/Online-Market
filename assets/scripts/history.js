@@ -1,17 +1,16 @@
+// ! import to be used when user.js is finished
+// import { user } from "./user.js";
+
 const ordersContainer = document.querySelector(".orders-container");
 
 let orders = [];
 
-// ! Scenario1 : retrieve users purchases from API
-// get userID from user.js
-// get user obj from API
-// handle fetching problems
-// get purchases
-// ! Scenario2 : retrieve users purchases from user.js
+// * retrieve users purchases from user.js
 // get user obj from user.js
 // get purchases
 
 /** user for local testing  */
+// let user = user;
 let test_user = {
   user: "Chester_Ernser",
   email: "Makayla_Schowalter8@hotmail.com",
