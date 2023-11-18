@@ -29,7 +29,6 @@ signinform.addEventListener("submit", (e) => {
   userInfo.password = password;
   // Call fetchData and use the returned data
   // fetchData().then((userInfo) => {
-  //   // Now there is access to userInfo
   authenticateInfos();
   // });
 });
