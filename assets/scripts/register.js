@@ -107,7 +107,10 @@ function sendUserData() {
         throw new Error("Wrong Network response");
       }
       // save user to current session
-      sessionStorage.setItem("user", JSON.stringify(userMatch));
+      // ! this does not save save user id into the session
+      formData.cart = [];
+      formData.purchase = [];
+      sessionStorage.setItem("user", JSON.stringify(formData));
       window.location.href = "products.html";
     })
     .catch((error) => {
