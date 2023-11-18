@@ -5,6 +5,7 @@ const username = document.getElementById("username");
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const confirmPassword = document.getElementById("confirm-password");
+const checkBox = document.getElementById("isAdmin");
 
 function showError(input, message) {
   // Find the error message container corresponding to the input ID
@@ -68,10 +69,10 @@ userForm.addEventListener("submit", (e) => {
 function sendUserData() {
   // prepare to send the data to API
   const formData = {
-    username: username.value,
+    user: username.value,
     email: email.value,
+    role: checkBox.checked,
     password: password.value,
-    confirmPassword: confirmPassword.value,
   };
   // make post request
   fetch(UsersUrl, {
@@ -85,10 +86,7 @@ function sendUserData() {
       if (!Response.ok) {
         throw new Error("Wrong Network response");
       }
-      return Response.JSON(); /// assuming the api return json
-    })
-    .then((data) => {
-      console.log("API response:", data);
+      //todo: go to products.html page
     })
     .catch((error) => {
       // Handle errors that occurred during the fetch
