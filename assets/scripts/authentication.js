@@ -48,6 +48,7 @@ function authenticateInfos() {
     sessionStorage.setItem("user", JSON.stringify(userMatch));
     console.log("Authentication successful");
     // todo: redirect to products page
+    window.location.href = "products.html";
   } else {
     console.log("Authentication failed");
   }
