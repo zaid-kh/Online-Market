@@ -1,5 +1,3 @@
-import { setUser } from "./user.js";
-
 const UsersUrl = "https://6555d3b584b36e3a431e6c3e.mockapi.io/users";
 const signinform = document.querySelector("#signinform");
 
@@ -46,7 +44,8 @@ function authenticateInfos() {
   console.log("userMatch: ", userMatch);
 
   if (userMatch) {
-    setUser(userMatch);
+    // save user to current session
+    sessionStorage.setItem("user", JSON.stringify(userMatch));
     console.log("Authentication successful");
     // todo: redirect to products page
   } else {

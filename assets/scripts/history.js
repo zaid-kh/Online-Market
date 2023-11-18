@@ -1,5 +1,6 @@
-// ! import to be used when user.js is finished
-import { user } from "./user.js";
+// Retrieve user from session storage
+const user = JSON.parse(sessionStorage.getItem("user"));
+console.log("user: ", user);
 
 const ordersContainer = document.querySelector(".orders-container");
 
