@@ -53,7 +53,21 @@
   display: block;
   min-width: 90%;
 }
-
+#add {
+  background-color: #0ada26;
+  position: fixed;
+  left: 10px;
+  bottom: 20px;
+  width: 100px;
+}
+#add {
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px auto;
+}
 #product-form {
   position: absolute;
   top: 100px;
@@ -78,17 +92,17 @@
 #product-form label {
   margin: 10px;
 }
-.hidden{
-    display: none;
+.hidden {
+  display: none;
 }
 
-/* product details */ 
+/* product details */
 #product-details {
-    max-width: 80%;
-    margin: 10px auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    font-size: 2rem;
+  max-width: 80%;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 2rem;
 }

@@ -1,7 +1,8 @@
 const UsersUrl = "https://6555d3b584b36e3a431e6c3e.mockapi.io/users";
 const signinform = document.querySelector("#signinform");
+
 // craete an object to store user's infos
-export const userInfo = {};
+const userInfo = {};
 let usersArray = [];
 
 async function fetchData() {
@@ -29,7 +30,6 @@ signinform.addEventListener("submit", (e) => {
   userInfo.password = password;
   // Call fetchData and use the returned data
   // fetchData().then((userInfo) => {
-  //   // Now there is access to userInfo
   authenticateInfos();
   // });
 });
@@ -41,9 +41,13 @@ function authenticateInfos() {
       user.user === userInfo.username && user.password === userInfo.password
     );
   });
+  console.log("userMatch: ", userMatch);
 
   if (userMatch) {
+    // save user to current session
+    sessionStorage.setItem("user", JSON.stringify(userMatch));
     console.log("Authentication successful");
+    // todo: redirect to products page
   } else {
     console.log("Authentication failed");
   }
