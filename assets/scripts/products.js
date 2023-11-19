@@ -60,10 +60,10 @@ function displayProducts(products) {
     img.alt = product.name + "photo";
 
     name.innerText = product.name;
-    price.innerText = "Price: " + product.price;
+    price.innerText = "Price: " + product.price + "$";
     description.innerText = product.description;
 
-    productCard.append(img, name, price, description);
+    productCard.append(img, name, price);
 
     // admin can add/ edit/ delete products
     if (isAdmin) {
