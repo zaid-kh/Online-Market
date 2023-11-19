@@ -53,6 +53,13 @@
   display: block;
   min-width: 90%;
 }
+.back-to-products:hover,
+.edit-product:hover,
+.delete-product:hover,
+.add-to-cart:hover ,
+#add:hover{
+  opacity: 0.5;
+}
 #add {
   background-color: #0ada26;
   position: fixed;

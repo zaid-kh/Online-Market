@@ -104,6 +104,10 @@ function displayProducts(products) {
         } else if (e.target.className == "edit-product") {
           editingProduct(product);
         } else {
+          e.target.innerText = "added success"
+          setTimeout(() => {
+            e.target.innerText = "Add To Cart"
+          } , 3000)
           await fetchUpdatingCart(currentUser, product);
         }
       } else productPage(product);
