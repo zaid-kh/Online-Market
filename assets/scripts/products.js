@@ -16,6 +16,7 @@ export let AllProducts = fetchProducts();
 export function getProduct(productId) {
   AllProducts.find((product) => product.id == productId);
 }
+console.log("user: ", user);
 
 const isAdmin = user.role;
 const currentUser = user;

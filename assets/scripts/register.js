@@ -62,13 +62,12 @@ userForm.addEventListener("submit", (e) => {
   // If all validation checks pass, display a success alert
   if (isValid) {
     sendUserData();
-    alert("User Form Submitted Successfully");
   }
 });
 
 function sendUserData() {
   // prepare to send the data to API
-  const formData = {
+  let formData = {
     user: username.value,
     email: email.value,
     role: checkBox.checked,
@@ -106,12 +105,17 @@ function sendUserData() {
       if (!Response.ok) {
         throw new Error("Wrong Network response");
       }
+
       // save user to current session
       // ! this does not save save user id into the session
+      formData.id = usersArray.length + 2;
+      console.log("usersArray.length: ", usersArray.length);
       formData.cart = [];
       formData.purchase = [];
       sessionStorage.setItem("user", JSON.stringify(formData));
-      window.location.href = "products.html";
+      setTimeout(() => {
+        window.location.href = "products.html";
+      }, 3000);
     })
     .catch((error) => {
       // Handle errors that occurred during the fetch
