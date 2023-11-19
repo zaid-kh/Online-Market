@@ -1,25 +1,20 @@
 const url='https://6555cde784b36e3a431e5f45.mockapi.io/';
+
 const user = JSON.parse(sessionStorage.getItem("user"));
 const purchase=document.getElementById('purchase');
-
-
-let shoppingCart = [{productId:1,
-    quantity:2 ,
-     img:new URL('https://th.bing.com/th/id/R.e50992d3b22d01f34fc854916980e4af?rik=mMELiKX0ZhdeWg&pid=ImgRaw&r=0'),
-     name:'product 1',
-     price:30+'IL'
-},
-{productId:2,
-    quantity:1,
-     img: new URL('https://i.pinimg.com/originals/3b/5f/32/3b5f328152b41414857051b82e5d5c0c.jpg'),
-     name:'product2',
-price:40+'IL'}];
-
-
-
-
-
 const cartItemsList = document.getElementById('cart-items');
+
+import { checkAuthentication, logoutUser } from "./assets/scripts/util.js";
+
+checkAuthentication();
+// Logout functionality
+const logoutButton = document.getElementById("logout");
+logoutButton.addEventListener("click", (e) => {
+  logoutUser();
+});
+// Retrieve user from session storage
+const usernameSpan = document.querySelector(".username");
+usernameSpan.innerText = user.user;
 
 
 function displayCart(shoppingCart) {
@@ -31,6 +26,7 @@ function displayCart(shoppingCart) {
 
     shoppingCart.forEach(item => {
         const cartItem = document.createElement('li');
+        cartItem.classList.add('element');
 
         cartItem.appendChild(document.createTextNode('Product ID: ' + item.id + ' '));
 
@@ -79,8 +75,11 @@ function remove_func(ItemId) {
     const index = user.cart.findIndex(item=>item.id=== ItemId)
     if(index !== -1){
       user.cart.splice(index,1);
+      fetchDeletingProduct(user.cart);
       displayCart(user.cart);
     }
+
+    sessionStorage.setItem("user", JSON.stringify(user));
 }    
 
 
@@ -91,13 +90,43 @@ function pressPurchase(){
     user.cart = []; // Clear the shopping cart
     displayCart(user.cart); // Update the displayed cart
 
+    sessionStorage.setItem("user", JSON.stringify(user));
 
     const orderlink = document.createElement("a")
         orderlink.classList.add('order');
-        orderlink.href='url';
+        orderlink.href='./orderHistory.html';
         orderlink.textContent='Review your order';
         document.body.appendChild(orderlink);
    
 
+
 }
 purchase.addEventListener('click',pressPurchase)
+
+// fetch DELETE for deleting product
+async function fetchDeletingProduct(currentProduct) {
+    try {
+      const res = await fetch(user.url + "/" + user.id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.log(data);
+      fetchCart();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function fetchCart() {
+    try {
+      const res = await fetch(ProductsUrl);
+      const data = await res.json();
+      console.log(data);
+      displayCart(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
