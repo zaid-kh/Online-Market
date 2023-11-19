@@ -126,6 +126,7 @@ async function fetchUpdatingCart(userData, currentProduct) {
       body: JSON.stringify(userData),
     });
     const data = await res.json();
+    sessionStorage.setItem("user", JSON.stringify(currentUser));
     console.log(data);
   } catch (error) {
     console.log(error);
