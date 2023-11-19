@@ -125,9 +125,10 @@ function sendUserData() {
 
 [username, email, password, confirmPassword].forEach((input) => {
   // Iterates over each input field
+
   input.addEventListener("input", () => {
     // add event listener to each input event // The 'input' event is triggered whenever the user types or modifies the content of an input field
     input.classList.remove(input.id + "Error"); // Removes the 'error' class from the input element and return to normal appearance
-    document.getElementById(input.id + "Error").textContent = "";
+    document.getElementById(input.id + "Error").innerText = "";
   });
 });

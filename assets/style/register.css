@@ -29,9 +29,8 @@ label {
     
 }
 
-input [type="text"],
-input [type= "email"],
-input [type= "password"] {
+#username, #email, #password, #confirm-password
+{
     width: 90%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -63,7 +62,10 @@ button {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+}
 
+#isAdmin {
+    margin-bottom: 10px;
 }
 
 button:hover {
