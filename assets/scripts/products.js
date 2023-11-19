@@ -60,10 +60,10 @@ function displayProducts(products) {
     img.alt = product.name + "photo";
 
     name.innerText = product.name;
-    price.innerText = "Price: " + product.price;
+    price.innerText = "Price: " + product.price + "$";
     description.innerText = product.description;
 
-    productCard.append(img, name, price, description);
+    productCard.append(img, name, price);
 
     // admin can add/ edit/ delete products
     if (isAdmin) {
@@ -104,6 +104,10 @@ function displayProducts(products) {
         } else if (e.target.className == "edit-product") {
           editingProduct(product);
         } else {
+          e.target.innerText = "added success"
+          setTimeout(() => {
+            e.target.innerText = "Add To Cart"
+          } , 3000)
           await fetchUpdatingCart(currentUser, product);
         }
       } else productPage(product);
